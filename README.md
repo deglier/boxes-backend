@@ -4,7 +4,7 @@
 
 ### Boxe
 
-    - Store
+- Store
 
 **Rota:** `http://domain/boxes/store` enviando o `title` em json:
 
