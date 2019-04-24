@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
-const credentials = require("./config/serverAuth.json");
 
 const app = express();
 app.use(cors());
@@ -10,8 +9,8 @@ app.use(cors());
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
-const serverUser = process.env.SERVER_USER || credentials.server_user;
-const serverPass = process.env.SERVER_PASS || credentials.server_pass;
+const serverUser = process.env.SERVER_USER || require("./config/serverAuth.json").server_user;
+const serverPass = process.env.SERVER_PASS || require("./config/serverAuth.json").server_pass;
 
 io.on("connection", socket => {
   socket.on("connectionRoom", box => {
