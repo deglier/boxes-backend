@@ -10,8 +10,20 @@ const multerConfig = require('./config/multer')
 const BoxController = require('./controllers/BoxController')
 const FileController = require('./controllers/FileController')
 
-routes.post('/boxes/store', BoxController.store)
-routes.get('/boxes/:id/show', BoxController.show)
+// Cria uma box
+routes.post('/box/store', BoxController.store)
+
+// Lista todas as boxes
+routes.get('/boxes', BoxController.showAll)
+
+// Seleciona um box pelo id
+routes.get('/boxes/:id', BoxController.show)
+
+// Atualiza uma box
+routes.put('/boxes/:id', BoxController.update)
+
+// Deleta uma box
+routes.delete('/boxes/:id', [FileController.drop, BoxController.drop])
 
 routes.post(
   '/boxes/:id/files',
