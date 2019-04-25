@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const Note = new mongoose.Schema({
   title: {
@@ -9,6 +9,6 @@ const Note = new mongoose.Schema({
     type: String,
     required: false
   }
-});
+})
 
-module.exports = mongoose.model("Note", Note);
+module.exports = mongoose.model('Note', Note)
