@@ -3,20 +3,54 @@ const Box = require('../models/Box')
 
 class FileController {
   async store (req, res) {
-    const box = await Box.findById(req.params.id)
+    try {
+      const box = await Box.findById(req.params.id)
+      const file = await File.create({
+        title: req.file.originalname,
+        path: req.file.key
+      })
+      box.files.push(file)
 
-    const file = await File.create({
-      title: req.file.originalname,
-      path: req.file.key
-    })
+      await box.save()
 
-    box.files.push(file)
+      req.io.sockets.in(box._id).emit('file', file)
+      return res.send(req.file)
+    } catch (err) {
+      return res.json({
+        status: 'erro',
+        ...err
+      })
+    }
+  }
 
-    await box.save()
+  async show (req, res) {
+    try {
+      const file = await File.findById(req.params.id)
 
-    req.io.sockets.in(box._id).emit('file', file)
+      res.json(file)
+    } catch (err) {
+      return res.json({
+        status: 'erro',
+        ...err
+      })
+    }
+  }
 
-    return res.send(req.file)
+  async drop (req, res, next) {
+    try {
+      const box = await Box.findById(req.params.id)
+      const files = box.files
+      files.forEach(async fileId => {
+        const file = await File.findByIdAndDelete(fileId)
+        console.log(file)
+      })
+      return next()
+    } catch (err) {
+      return res.json({
+        status: 'erro',
+        ...err
+      })
+    }
   }
 }
 
