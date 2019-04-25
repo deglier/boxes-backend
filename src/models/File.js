@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const File = new mongoose.Schema(
   {
@@ -16,11 +16,11 @@ const File = new mongoose.Schema(
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
   }
-);
+)
 
-File.virtual("url").get(function() {
-  const url = process.env.URL || "http://localhost:4000";
-  return `${url}/files/${encodeURIComponent(this.path)}`;
-});
+File.virtual('url').get(function () {
+  const url = process.env.URL || 'http://localhost:4000'
+  return `${url}/files/${encodeURIComponent(this.path)}`
+})
 
-module.exports = mongoose.model("File", File);
+module.exports = mongoose.model('File', File)
